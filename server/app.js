@@ -4,6 +4,8 @@ const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
 
+const authRoutes = require("./routes/auth.routes");
+
 const app = express();
 
 // ── Security middleware ──
@@ -11,14 +13,14 @@ app.use(helmet());
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:5173",
-    credentials: true, // allows cookies to be sent from frontend
+    credentials: true,
   }),
 );
 
 // ── Rate limiting on auth routes ──
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 20, // max 20 requests per 15 min
+  windowMs: 15 * 60 * 1000,
+  max: 20,
   message: { message: "Too many requests, please try again later" },
 });
 app.use("/api/auth", authLimiter);
@@ -27,6 +29,9 @@ app.use("/api/auth", authLimiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// ── Routes ──
+app.use("/api/auth", authRoutes);
 
 // ── Health check route ──
 app.get("/", (req, res) => {
@@ -39,3 +44,4 @@ app.use((req, res) => {
 });
 
 module.exports = app;
+
