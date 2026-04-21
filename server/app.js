@@ -7,6 +7,7 @@ const rateLimit = require("express-rate-limit");
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require('./routes/user.routes');
 const matchRoutes = require('./routes/match.routes');
+const messageRoutes = require('./routes/message.routes');
 const { protect } = require('./middleware/authMiddleware');
 
 const app = express();
@@ -37,6 +38,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/matches', matchRoutes);
+app.use('/api/messages', messageRoutes);
 
 
 // ── Health check route ──
