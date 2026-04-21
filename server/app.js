@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
 
 const authRoutes = require("./routes/auth.routes");
+const { protect } = require('./middleware/authMiddleware');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(cookieParser());
 
 // ── Routes ──
 app.use("/api/auth", authRoutes);
+
 
 // ── Health check route ──
 app.get("/", (req, res) => {
