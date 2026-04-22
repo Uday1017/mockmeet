@@ -9,10 +9,10 @@ async function recalculateReputation(userId) {
   const avg =
     reviews.reduce((sum, r) => {
       const sessionAvg =
-        (r.ratings.technicalDepth +
+        (r.ratings.technical +
           r.ratings.communication +
           r.ratings.problemSolving +
-          r.ratings.overallExperience) /
+          r.ratings.overall) /
         4;
       return sum + sessionAvg;
     }, 0) / reviews.length;

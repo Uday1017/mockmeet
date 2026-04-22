@@ -42,6 +42,18 @@ const Dashboard = () => {
               Find Matches
             </button>
             <button
+              onClick={() => navigate("/sessions")}
+              className="text-sm text-gray-600 hover:text-indigo-600 font-medium transition-colors"
+            >
+              Sessions
+            </button>
+            <button
+              onClick={() => navigate("/my-feedback")}
+              className="text-sm text-gray-600 hover:text-indigo-600 font-medium transition-colors"
+            >
+              My Feedback
+            </button>
+            <button
               onClick={() => navigate("/profile")}
               className="text-sm text-gray-600 hover:text-indigo-600 font-medium transition-colors"
             >
@@ -123,12 +135,23 @@ const Dashboard = () => {
             color="indigo"
           />
           <ActionCard
+            title="Feedback Received"
+            description="See what others think about your performance"
+            buttonText="View Feedback"
+            onClick={() => navigate("/my-feedback")}
+            color="indigo"
+          />
+          <ActionCard
             title="Update Profile"
             description="Add your skills and target roles"
             buttonText="Edit Profile"
             onClick={() => navigate("/profile")}
             color="purple"
           />
+        </div>
+
+        {/* Second row of action cards */}
+        <div className="grid md:grid-cols-3 gap-4 mt-4">
           <ActionCard
             title="How Credits Work"
             description="Teach 1 session → earn 1 credit. Spend to learn."

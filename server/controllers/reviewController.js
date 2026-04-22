@@ -78,4 +78,22 @@ const getUserReviews = async (req, res) => {
   }
 };
 
-module.exports = { submitReview, getUserReviews };
+// ────────────────────────────────────────────────
+// @route   GET /api/reviews/mine
+// @access  Private
+// ────────────────────────────────────────────────
+const getMyReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find({ reviewee: req.user._id })
+      .populate('reviewer', 'name avatar')
+      .populate('sessionId', 'targetRole scheduledAt')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ reviews });
+  } catch (error) {
+    console.error('getMyReviews error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+module.exports = { submitReview, getUserReviews, getMyReviews };

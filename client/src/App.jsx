@@ -7,6 +7,9 @@ import Dashboard from './pages/Dashboard';
 import Matches from './pages/Matches';
 import Profile from './pages/Profile';
 import Chat from './pages/Chat';
+import Sessions from './pages/Sessions';
+import Feedback from './pages/Feedback';
+import MyFeedback from './pages/MyFeedback';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -39,6 +42,15 @@ const App = () => {
       } />
       <Route path="/chat/:matchId" element={
         <ProtectedRoute><Chat /></ProtectedRoute>
+      } />
+      <Route path="/sessions" element={
+        <ProtectedRoute><Sessions /></ProtectedRoute>
+      } />
+      <Route path="/review/:sessionId" element={
+        <ProtectedRoute><Feedback /></ProtectedRoute>
+      } />
+      <Route path="/my-feedback" element={
+        <ProtectedRoute><MyFeedback /></ProtectedRoute>
       } />
     </Routes>
   );
