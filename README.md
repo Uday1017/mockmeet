@@ -38,7 +38,7 @@ A full-stack web application that connects professionals for peer-to-peer mock i
 -  **Google Calendar Integration** - Automatic calendar event creation with reminders
 -  **Modern UI/UX** - Beautiful gradient designs with Tailwind CSS v4
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 ### Frontend
 - **React 18** - Modern UI library
@@ -64,7 +64,7 @@ A full-stack web application that connects professionals for peer-to-peer mock i
 - **Nodemailer** - Email service
 - **Jitsi Meet** - Video conferencing fallback
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - Node.js (v16 or higher)
@@ -145,7 +145,7 @@ cd client
 npm run dev
 ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 mockmeet/
