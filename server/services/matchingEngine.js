@@ -18,9 +18,14 @@ function calculateMatchScore(userA, userB) {
   // How much B can teach A
   const bTeachesA = skillOverlap(userB.skillsOffered, userA.skillsWanted);
 
-  // Geometric mean — if either side is 0, total score is 0
-  // This enforces truly mutual matches only
-  const mutualScore = Math.sqrt(aTeachesB * bTeachesA);
+  // If both have skills, use geometric mean for mutual benefit
+  // If one or both have no skills, use arithmetic mean
+  let mutualScore;
+  if (aTeachesB > 0 && bTeachesA > 0) {
+    mutualScore = Math.sqrt(aTeachesB * bTeachesA);
+  } else {
+    mutualScore = (aTeachesB + bTeachesA) / 2;
+  }
 
   // Bonus: same target role = more relevant interview practice
   const sharedRoles = userA.targetRoles.filter((r) =>
@@ -39,9 +44,12 @@ function calculateMatchScore(userA, userB) {
   // Reputation factor — highly rated users rank higher
   const repFactor = ((userB.reputationScore || 5) / 5) * 10;
 
+  // Base score for all users (so even 0% skill match shows some score)
+  const baseScore = 5;
+
   const finalScore = Math.min(
     100,
-    mutualScore + roleBonus + cityBonus + repFactor,
+    baseScore + mutualScore + roleBonus + cityBonus + repFactor,
   );
 
   return {
@@ -55,10 +63,10 @@ function calculateMatchScore(userA, userB) {
 async function getRankedMatches(userId, page = 1, limit = 20) {
   const user = await User.findById(userId);
 
-  if (!user.skillsOffered.length || !user.skillsWanted.length) {
+  if (!user) {
     return {
       matches: [],
-      message: "Please add your skills first",
+      message: "User not found",
     };
   }
 
@@ -71,11 +79,10 @@ async function getRankedMatches(userId, page = 1, limit = 20) {
   );
   excludeIds.push(userId); // exclude self
 
-  // Find candidates with complementary skills
+  // Find ALL users except self and existing matches
+  // No skill filtering - show everyone!
   const candidates = await User.find({
     _id: { $nin: excludeIds },
-    skillsOffered: { $in: user.skillsWanted },
-    skillsWanted: { $in: user.skillsOffered },
   });
 
   // Score and sort all candidates
@@ -87,8 +94,8 @@ async function getRankedMatches(userId, page = 1, limit = 20) {
       );
       return { user: candidate, score, aTeachesB, bTeachesA };
     })
-    .filter((m) => m.score > 10) // minimum threshold
-    .sort((a, b) => b.score - a.score);
+    // Remove the filter - show ALL users even with 0% match
+    .sort((a, b) => b.score - a.score); // Sort by score (highest first)
 
   // Paginate
   const total = scored.length;

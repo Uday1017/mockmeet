@@ -4,6 +4,8 @@ const User = require("../models/User");
 const { transferCredits } = require("../services/creditService");
 const { recalculateReputation } = require("../services/reputationService");
 const { generateInterviewQuestions } = require("../services/geminiService");
+const { createCalendarEvent, cancelCalendarEvent } = require("../services/calendarService");
+const { generateSimpleMeetLink } = require("../services/simpleMeetService");
 
 // ────────────────────────────────────────────────
 // @route   POST /api/sessions
@@ -88,10 +90,33 @@ const confirmSession = async (req, res) => {
     if (isInterviewer) session.interviewerConfirmed = true;
     if (isInterviewee) session.intervieweeConfirmed = true;
 
-    // If both confirmed — transfer credits
+    // If both confirmed — transfer credits and create calendar event
     if (session.interviewerConfirmed && session.intervieweeConfirmed) {
       await session.save();
       await transferCredits(session._id);
+      
+      // Try to create Google Calendar event with Meet link
+      try {
+        const calendarEvent = await createCalendarEvent(session);
+        
+        if (calendarEvent.meetLink) {
+          // Google Calendar API worked
+          session.meetLink = calendarEvent.meetLink;
+          session.calendarEventId = calendarEvent.eventId;
+          session.calendarHtmlLink = calendarEvent.htmlLink;
+        } else {
+          // Fallback: Generate a simple Jitsi meet link
+          console.log('⚠️  Google Calendar not configured. Using Jitsi Meet as fallback.');
+          session.meetLink = generateSimpleMeetLink(session, 'jitsi');
+        }
+        
+        await session.save();
+      } catch (calendarError) {
+        console.error('❌ Calendar event creation failed:', calendarError.message);
+        // Fallback: Generate a simple meet link
+        session.meetLink = generateSimpleMeetLink(session, 'jitsi');
+        await session.save();
+      }
     } else {
       await session.save();
     }
@@ -125,6 +150,17 @@ const cancelSession = async (req, res) => {
     }
 
     session.status = "cancelled";
+    
+    // Cancel Google Calendar event if it exists
+    if (session.calendarEventId) {
+      try {
+        await cancelCalendarEvent(session.calendarEventId);
+      } catch (calendarError) {
+        console.error('Calendar event cancellation failed:', calendarError);
+        // Continue even if calendar cancellation fails
+      }
+    }
+    
     await session.save();
 
     res.status(200).json({ message: "Session cancelled", session });

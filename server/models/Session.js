@@ -47,6 +47,14 @@ const sessionSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    calendarEventId: {
+      type: String,
+      default: "",
+    },
+    calendarHtmlLink: {
+      type: String,
+      default: "",
+    },
     interviewerConfirmed: {
       type: Boolean,
       default: false,

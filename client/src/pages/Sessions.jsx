@@ -70,24 +70,24 @@ const Sessions = () => {
     <div className="min-h-screen bg-gray-50">
 
       {/* Navbar */}
-      <nav className="bg-white border-b border-gray-100 px-6 py-4">
+      <nav className="bg-white border-b border-gray-100 px-4 sm:px-6 py-3 sm:py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <button
             onClick={() => navigate('/dashboard')}
-            className="text-xl font-bold text-indigo-600"
+            className="text-lg sm:text-xl font-bold text-indigo-600"
           >
             MockMeet
           </button>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             <button
               onClick={() => navigate('/matches')}
-              className="text-sm text-gray-500 hover:text-gray-700"
+              className="text-xs sm:text-sm text-gray-500 hover:text-gray-700"
             >
               Matches
             </button>
             <button
               onClick={() => navigate('/dashboard')}
-              className="text-sm text-gray-500 hover:text-gray-700"
+              className="text-xs sm:text-sm text-gray-500 hover:text-gray-700"
             >
               Dashboard
             </button>
@@ -95,19 +95,19 @@ const Sessions = () => {
         </div>
       </nav>
 
-      <div className="max-w-5xl mx-auto px-6 py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-3">
           <div>
-            <h2 className="text-2xl font-bold text-gray-800">Sessions</h2>
-            <p className="text-gray-500 text-sm mt-1">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Sessions</h2>
+            <p className="text-sm text-gray-500 mt-1">
               Schedule and manage your mock interview sessions.
             </p>
           </div>
           <button
             onClick={() => setShowProposeForm(true)}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-5 py-2.5 rounded-xl transition-colors"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-medium px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl transition-colors w-full sm:w-auto"
           >
             + Propose Session
           </button>
@@ -127,7 +127,7 @@ const Sessions = () => {
         )}
 
         {/* Tabs */}
-        <div className="flex rounded-xl bg-gray-100 p-1 mb-6 w-fit">
+        <div className="flex rounded-xl bg-gray-100 p-1 mb-4 sm:mb-6 w-full sm:w-fit">
           <button
             onClick={() => setActiveTab('upcoming')}
             className={`px-5 py-2 text-sm font-medium rounded-lg transition-all ${

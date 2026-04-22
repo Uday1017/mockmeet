@@ -44,24 +44,24 @@ const Matches = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navbar */}
-      <nav className="bg-white border-b border-gray-100 px-6 py-4">
+      <nav className="bg-white border-b border-gray-100 px-4 sm:px-6 py-3 sm:py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <button
             onClick={() => navigate("/dashboard")}
-            className="text-xl font-bold text-indigo-600"
+            className="text-lg sm:text-xl font-bold text-indigo-600"
           >
             MockMeet
           </button>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             <button
               onClick={() => navigate("/profile")}
-              className="text-sm text-gray-500 hover:text-gray-700"
+              className="text-xs sm:text-sm text-gray-500 hover:text-gray-700"
             >
               Profile
             </button>
             <button
               onClick={() => navigate("/dashboard")}
-              className="text-sm text-gray-500 hover:text-gray-700"
+              className="text-xs sm:text-sm text-gray-500 hover:text-gray-700"
             >
               Dashboard
             </button>
@@ -69,17 +69,23 @@ const Matches = () => {
         </div>
       </nav>
 
-      <div className="max-w-5xl mx-auto px-6 py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Header */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Matches</h2>
-          <p className="text-gray-500 text-sm mt-1">
-            People ranked by how well your skills complement each other.
+        <div className="mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Matches</h2>
+          <p className="text-sm sm:text-base text-gray-500 mt-1">
+            All users sorted by match score. Higher scores mean better skill complementarity.
           </p>
+          <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <p className="text-xs sm:text-sm text-blue-800">
+              💡 <span className="font-semibold">Tip:</span> We show all available users, even with 0% match. 
+              You can connect with anyone to practice interviews together!
+            </p>
+          </div>
         </div>
 
         {/* Tabs */}
-        <div className="flex rounded-xl bg-gray-100 p-1 mb-6 w-fit">
+        <div className="flex rounded-xl bg-gray-100 p-1 mb-4 sm:mb-6 w-full sm:w-fit">
           <button
             onClick={() => setActiveTab("discover")}
             className={`px-5 py-2 text-sm font-medium rounded-lg transition-all ${
@@ -114,8 +120,8 @@ const Matches = () => {
               <LoadingGrid />
             ) : potential.length === 0 ? (
               <EmptyState
-                message="No matches found"
-                description="Make sure you've added skills you offer and skills you want in your profile."
+                message="No other users yet"
+                description="You're one of the first users! Invite your friends to join MockMeet."
                 buttonText="Update Profile"
                 onClick={() => navigate("/profile")}
               />
@@ -164,6 +170,16 @@ const Matches = () => {
 const MatchCard = ({ match, isSent, onSendRequest }) => {
   const { user, score, aTeachesB, bTeachesA } = match;
 
+  // Determine match quality message
+  const getMatchMessage = (score) => {
+    if (score >= 80) return { text: "Excellent match!", color: "text-green-600" };
+    if (score >= 50) return { text: "Good match", color: "text-amber-600" };
+    if (score >= 20) return { text: "Low match, but you can still connect!", color: "text-gray-600" };
+    return { text: "No skill overlap, but practice together!", color: "text-gray-500" };
+  };
+
+  const matchMessage = getMatchMessage(score);
+
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-5 flex flex-col gap-4">
       {/* Header */}
@@ -192,6 +208,11 @@ const MatchCard = ({ match, isSent, onSendRequest }) => {
           {score}% match
         </div>
       </div>
+
+      {/* Match quality message */}
+      <p className={`text-xs font-medium ${matchMessage.color}`}>
+        {matchMessage.text}
+      </p>
 
       {/* Bio */}
       {user.bio && (
@@ -273,6 +294,16 @@ const SkillExchangeRow = ({ label, skills, color, coverage }) => {
     blue: "bg-blue-50 text-blue-600",
     green: "bg-green-50 text-green-600",
   };
+
+  // Show message if no skills
+  if (!skills || skills.length === 0) {
+    return (
+      <div>
+        <p className="text-xs text-gray-400 mb-1">{label} (0% match)</p>
+        <p className="text-xs text-gray-400 italic">No skills added yet</p>
+      </div>
+    );
+  }
 
   return (
     <div>

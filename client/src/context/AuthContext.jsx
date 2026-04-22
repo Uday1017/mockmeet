@@ -45,9 +45,17 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await api.post('/auth/logout');
+    } catch (error) {
+      console.error('Logout error:', error);
     } finally {
-      localStorage.removeItem('accessToken');
+      // Clear all local storage
+      localStorage.clear();
+      // Clear session storage
+      sessionStorage.clear();
+      // Reset user state
       setUser(null);
+      // Force reload to clear any cached data
+      window.location.href = '/login';
     }
   };
 
