@@ -2,7 +2,7 @@
 
 A full-stack web application that connects professionals for peer-to-peer mock interviews using a credit-based economy system. Practice your interview skills by both teaching and learning from others.
 
-## 📸 Screenshots
+## Screenshots
 
 ### Dashboard
 ![Dashboard](./screenshots/dashboard.png)
@@ -16,27 +16,27 @@ A full-stack web application that connects professionals for peer-to-peer mock i
 ### Feedback System
 ![Feedback](./screenshots/feedback.png)
 
-## ✨ Features
+##  Features
 
 ### Core Functionality
-- 🔐 **User Authentication** - Secure JWT-based authentication with email/password
-- 🎯 **Smart Matching Algorithm** - Connects users based on complementary skills
-- 💬 **Real-time Chat** - Socket.io powered instant messaging between matched users
-- 📅 **Session Management** - Schedule, confirm, and manage mock interview sessions
-- 💰 **Credit Economy** - Earn credits by teaching, spend credits to learn
-- ⭐ **Reputation System** - Build your reputation through quality sessions
-- 📝 **Feedback System** - Give and receive detailed feedback after sessions
-- 🎥 **Video Integration** - Automatic Google Meet/Jitsi Meet link generation
-- 📧 **Email Notifications** - Automated reminders and calendar invites
-- 📱 **Fully Responsive** - Optimized for mobile, tablet, and desktop
+-  **User Authentication** - Secure JWT-based authentication with email/password
+-  **Smart Matching Algorithm** - Connects users based on complementary skills
+-  **Real-time Chat** - Socket.io powered instant messaging between matched users
+-  **Session Management** - Schedule, confirm, and manage mock interview sessions
+-  **Credit Economy** - Earn credits by teaching, spend credits to learn
+-  **Reputation System** - Build your reputation through quality sessions
+-  **Feedback System** - Give and receive detailed feedback after sessions
+-  **Video Integration** - Automatic Google Meet/Jitsi Meet link generation
+-  **Email Notifications** - Automated reminders and calendar invites
+-  **Fully Responsive** - Optimized for mobile, tablet, and desktop
 
 ### Advanced Features
-- 🤖 **AI-Powered Feedback** - Gemini AI generates structured interview feedback
-- 📊 **Analytics Dashboard** - Track your sessions, reputation, and progress
-- 🔔 **Smart Notifications** - Real-time updates for matches, sessions, and messages
-- 📷 **Profile Pictures** - Cloudinary integration for image uploads
-- 🗓️ **Google Calendar Integration** - Automatic calendar event creation with reminders
-- 🎨 **Modern UI/UX** - Beautiful gradient designs with Tailwind CSS v4
+-  **AI-Powered Feedback** - Gemini AI generates structured interview feedback
+-  **Analytics Dashboard** - Track your sessions, reputation, and progress
+-  **Smart Notifications** - Real-time updates for matches, sessions, and messages
+-  **Profile Pictures** - Cloudinary integration for image uploads
+-  **Google Calendar Integration** - Automatic calendar event creation with reminders
+-  **Modern UI/UX** - Beautiful gradient designs with Tailwind CSS v4
 
 ## 🛠️ Tech Stack
 
@@ -145,10 +145,6 @@ cd client
 npm run dev
 ```
 
-6. **Access the application**
-- Frontend: http://localhost:5173
-- Backend: http://localhost:5000
-
 ## 📁 Project Structure
 
 ```
@@ -234,7 +230,7 @@ Fully optimized for:
 -  Laptop (1024px+)
 -  Desktop (1280px+)
 
-## 🤝 Contributing
+##  Contributing
 
 This is a personal resume project. Feel free to fork and customize for your own use!
 
@@ -242,11 +238,11 @@ This is a personal resume project. Feel free to fork and customize for your own 
 
 MIT License - feel free to use this project for learning purposes.
 
-## 👨 Author
+##  Author
 
 **Uday Gundu**
 - GitHub: [@Uday1017](https://github.com/Uday1017)
-- LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/uday-gundu-4b8658268/)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/uday-gundu-4b8658268/)
 - Email: udaygundu17@gmail.com
 
 ## 🙏 Acknowledgments
