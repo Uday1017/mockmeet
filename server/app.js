@@ -8,6 +8,8 @@ const authRoutes = require("./routes/auth.routes");
 const userRoutes = require('./routes/user.routes');
 const matchRoutes = require('./routes/match.routes');
 const messageRoutes = require('./routes/message.routes');
+const sessionRoutes = require('./routes/session.routes');
+const reviewRoutes = require('./routes/review.routes');
 const { protect } = require('./middleware/authMiddleware');
 
 const app = express();
@@ -39,6 +41,8 @@ app.use("/api/auth", authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/matches', matchRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/sessions', sessionRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 
 // ── Health check route ──

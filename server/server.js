@@ -6,6 +6,7 @@ const { Server } = require("socket.io");
 const app = require("./app");
 const connectDB = require("./config/db");
 const { initSocket } = require("./socket/socketHandler");
+const { startNoShowJob } = require("./jobs/noShowJob");
 
 const PORT = process.env.PORT || 5001;
 
@@ -23,6 +24,9 @@ connectDB()
 
     // ── Start socket handler ──
     initSocket(io);
+
+    // ── Start cron jobs ──
+    startNoShowJob();
 
     server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
