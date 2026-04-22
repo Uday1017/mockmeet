@@ -1,14 +1,13 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 
-// Pages
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 import Matches from './pages/Matches';
 import Profile from './pages/Profile';
+import Chat from './pages/Chat';
 
-// Protected route wrapper
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
@@ -26,12 +25,9 @@ const ProtectedRoute = ({ children }) => {
 const App = () => {
   return (
     <Routes>
-      {/* Public routes */}
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Auth />} />
       <Route path="/register" element={<Auth />} />
-
-      {/* Protected routes */}
       <Route path="/dashboard" element={
         <ProtectedRoute><Dashboard /></ProtectedRoute>
       } />
@@ -40,6 +36,9 @@ const App = () => {
       } />
       <Route path="/profile" element={
         <ProtectedRoute><Profile /></ProtectedRoute>
+      } />
+      <Route path="/chat/:matchId" element={
+        <ProtectedRoute><Chat /></ProtectedRoute>
       } />
     </Routes>
   );
