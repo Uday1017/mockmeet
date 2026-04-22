@@ -176,6 +176,7 @@ const Sessions = () => {
                     onConfirm={() => confirmSession.mutate(session._id)}
                     onCancel={() => cancelSession.mutate(session._id)}
                     onReview={() => navigate(`/review/${session._id}`)}
+                    onViewQuestions={() => navigate(`/questions/${session._id}`)}
                   />
                 ))}
               </div>
@@ -383,7 +384,7 @@ const ProposeSessionForm = ({ matches, userId, onClose, onSuccess }) => {
 };
 
 // ── Session card ──
-const SessionCard = ({ session, currentUserId, isPast, onConfirm, onCancel, onReview }) => {
+const SessionCard = ({ session, currentUserId, isPast, onConfirm, onCancel, onReview, onViewQuestions }) => {
   const isInterviewer = session.interviewer?._id === currentUserId;
   const otherUser = isInterviewer ? session.interviewee : session.interviewer;
 
@@ -469,25 +470,34 @@ const SessionCard = ({ session, currentUserId, isPast, onConfirm, onCancel, onRe
 
       {/* Actions */}
       {!isPast && session.status === 'scheduled' && (
-        <div className="flex gap-2 mt-4">
-          {!hasConfirmed && (
+        <div className="flex flex-col gap-2 mt-4">
+          <div className="flex gap-2">
+            {!hasConfirmed && (
+              <button
+                onClick={onConfirm}
+                className="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 rounded-xl transition-colors"
+              >
+                Confirm Session
+              </button>
+            )}
+            {hasConfirmed && (
+              <div className="flex-1 bg-green-50 text-green-600 text-sm font-medium py-2 rounded-xl text-center">
+                ✓ You confirmed
+              </div>
+            )}
             <button
-              onClick={onConfirm}
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 rounded-xl transition-colors"
+              onClick={onCancel}
+              className="px-4 bg-gray-100 hover:bg-gray-200 text-gray-600 text-sm font-medium py-2 rounded-xl transition-colors"
             >
-              Confirm Session
+              Cancel
             </button>
-          )}
-          {hasConfirmed && (
-            <div className="flex-1 bg-green-50 text-green-600 text-sm font-medium py-2 rounded-xl text-center">
-              ✓ You confirmed
-            </div>
-          )}
+          </div>
+          {/* AI Questions button */}
           <button
-            onClick={onCancel}
-            className="px-4 bg-gray-100 hover:bg-gray-200 text-gray-600 text-sm font-medium py-2 rounded-xl transition-colors"
+            onClick={onViewQuestions}
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium py-2 rounded-xl transition-colors"
           >
-            Cancel
+            ✨ View AI Generated Questions
           </button>
         </div>
       )}

@@ -3,6 +3,7 @@ const Match = require("../models/Match");
 const User = require("../models/User");
 const { transferCredits } = require("../services/creditService");
 const { recalculateReputation } = require("../services/reputationService");
+const { generateInterviewQuestions } = require("../services/geminiService");
 
 // ────────────────────────────────────────────────
 // @route   POST /api/sessions
@@ -176,10 +177,54 @@ const getPastSessions = async (req, res) => {
   }
 };
 
+// ────────────────────────────────────────────────
+// @route   GET /api/sessions/:id/questions
+// @access  Private
+// ────────────────────────────────────────────────
+const getSessionQuestions = async (req, res) => {
+  try {
+    const session = await Session.findById(req.params.id);
+    if (!session) {
+      return res.status(404).json({ message: 'Session not found' });
+    }
+
+    const isPartOfSession =
+      session.interviewer.toString() === req.user._id.toString() ||
+      session.interviewee.toString() === req.user._id.toString();
+    if (!isPartOfSession) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    // Return cached questions if already generated
+    if (session.aiGeneratedQuestions.length > 0) {
+      return res.status(200).json({
+        questions: session.aiGeneratedQuestions.map(q => JSON.parse(q))
+      });
+    }
+
+    // Generate new questions
+    const questions = await generateInterviewQuestions(
+      session.targetRole || 'SDE-1',
+      session.difficulty || 'medium'
+    );
+
+    // Cache them on the session
+    session.aiGeneratedQuestions = questions.map(q => JSON.stringify(q));
+    await session.save();
+
+    res.status(200).json({ questions });
+
+  } catch (error) {
+    console.error('getSessionQuestions error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   proposeSession,
   confirmSession,
   cancelSession,
   getUpcomingSessions,
   getPastSessions,
+  getSessionQuestions,
 };

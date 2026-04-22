@@ -10,6 +10,7 @@ import Chat from './pages/Chat';
 import Sessions from './pages/Sessions';
 import Feedback from './pages/Feedback';
 import MyFeedback from './pages/MyFeedback';
+import Questions from './pages/Questions';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -51,6 +52,9 @@ const App = () => {
       } />
       <Route path="/my-feedback" element={
         <ProtectedRoute><MyFeedback /></ProtectedRoute>
+      } />
+      <Route path="/questions/:sessionId" element={
+        <ProtectedRoute><Questions /></ProtectedRoute>
       } />
     </Routes>
   );
